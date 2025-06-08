@@ -13,3 +13,15 @@ func NewError(details string) *Error {
 func (e *Error) Error() string {
 	return e.Details
 }
+
+type HttpError struct {
+	StatusCode int
+	Body       string
+}
+
+func NewHttpError(statusCode int, body string) *HttpError {
+	return &HttpError{
+		StatusCode: statusCode,
+		Body:       body,
+	}
+}

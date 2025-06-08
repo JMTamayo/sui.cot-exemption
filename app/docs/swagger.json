@@ -3,5 +3,101 @@
     "info": {
         "contact": {}
     },
-    "paths": {}
+    "paths": {
+        "/sui/verify-cot-exemption": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SUI"
+                ],
+                "summary": "Verify COT exemption for a given niu",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "niu",
+                        "name": "niu",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.CotExemptionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.CotExemptionReport": {
+            "type": "object",
+            "properties": {
+                "id_empresa": {
+                    "type": "string"
+                },
+                "niu": {
+                    "type": "string"
+                },
+                "nombre_prestador": {
+                    "type": "string"
+                },
+                "radicado": {
+                    "type": "string"
+                },
+                "sigla": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.CotExemptionResponse": {
+            "type": "object",
+            "properties": {
+                "sui_cot_exemption_response": {
+                    "$ref": "#/definitions/models.TviSuperserviciosCotExemptionResponse"
+                },
+                "verification_timestamp": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Error": {
+            "type": "object",
+            "properties": {
+                "details": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.TviSuperserviciosCotExemptionResponse": {
+            "type": "object",
+            "properties": {
+                "listado_exentos": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.CotExemptionReport"
+                    }
+                }
+            }
+        }
+    }
 }
