@@ -61,6 +61,6 @@ jobs:
       - name: "Deploy: Container App"
         uses: azure/container-apps-deploy-action@v2
         with:
-          imageToDeploy: ${{ secrets.ACR_URL }}//${{ secrets.ACR_REPO }}:latest
+          imageToDeploy: ${{ secrets.ACR_URL }}/${{ secrets.ACR_REPO }}:latest
           resourceGroup: ${{ secrets.AZURE_RESOURCE_GROUP }}
           containerAppName: ${{ secrets.AZURE_CONTAINER_APP }}
