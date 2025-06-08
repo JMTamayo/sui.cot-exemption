@@ -46,13 +46,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.Error"
+                            "$ref": "#/definitions/models.HTTPError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.Error"
+                            "$ref": "#/definitions/models.HTTPError"
                         }
                     }
                 }
@@ -83,7 +83,7 @@ const docTemplate = `{
         "models.CotExemptionResponse": {
             "type": "object",
             "properties": {
-                "sui_cot_exemption_response": {
+                "report": {
                     "$ref": "#/definitions/models.TviSuperserviciosCotExemptionResponse"
                 },
                 "verification_timestamp": {
@@ -96,6 +96,14 @@ const docTemplate = `{
             "properties": {
                 "details": {
                     "type": "string"
+                }
+            }
+        },
+        "models.HTTPError": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "$ref": "#/definitions/models.Error"
                 }
             }
         },

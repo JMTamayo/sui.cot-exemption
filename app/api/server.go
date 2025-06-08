@@ -11,8 +11,17 @@ import (
 	"sui.cot-exemption/app/models"
 )
 
+// Server represents the engine of the HTTP server, which is responsible for handling HTTP requests and responses.
 type Server struct{}
 
+// BuildServer builds the HTTP server.
+//
+// Arguments:
+//   - ctx: The context of the request.
+//
+// Returns:
+//   - The HTTP server as a gin.Engine instance.
+//   - An error if the server fails to build.
 func BuildServer(ctx *gin.Context) (*gin.Engine, *models.Error) {
 	router := gin.Default()
 
