@@ -13,8 +13,6 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: 'Build and Push to ACR'
     runs-on: ubuntu-24.04
-    outputs:
-      image_tag: ${{ env.IMAGE_TAG_LATEST }}
 
     defaults:
       run:
@@ -63,6 +61,6 @@ jobs:
       - name: "Deploy: Container App"
         uses: azure/container-apps-deploy-action@v2
         with:
-          imageToDeploy: ${{ needs.Build.outputs.image_tag }}
+          imageToDeploy: ${{ secrets.ACR_URL }}//${{ secrets.ACR_REPO }}:latest
           resourceGroup: ${{ secrets.AZURE_RESOURCE_GROUP }}
           containerAppName: ${{ secrets.AZURE_CONTAINER_APP }}
