@@ -11,7 +11,7 @@ import (
 // VPNClient handles VPN operations
 type VPNClient struct{}
 
-// VPNClient creates a new VPN client instance
+// NewVPNClient creates a new VPN client instance
 //
 // Arguments:
 //   - None.
