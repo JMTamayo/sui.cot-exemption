@@ -9,6 +9,16 @@ import (
 )
 
 func main() {
+	vpnClient := server.NewVPNClient()
+	err := vpnClient.Login()
+	if err != nil {
+		panic(err)
+	}
+	err = vpnClient.Connect()
+	if err != nil {
+		panic(err)
+	}
+
 	docs.SwaggerInfo.Title = config.Conf.GetServiceName()
 	docs.SwaggerInfo.Version = config.Conf.GetServiceVersion()
 	docs.SwaggerInfo.Description = config.Conf.GetServiceDescription()

@@ -22,17 +22,17 @@ RUN cp /build/main .
 
 FROM ubuntu:24.04
 
+COPY --from=builder /dist/main /main
+
 RUN apt-get update && \
-    apt-get install -y ca-certificates && \
+    apt-get install -y --no-install-recommends wget apt-transport-https ca-certificates && \
+    wget -qO /etc/apt/trusted.gpg.d/nordvpn_public.asc https://repo.nordvpn.com/gpg/nordvpn_public.asc && \
+    echo "deb https://repo.nordvpn.com/deb/nordvpn/debian stable main" > /etc/apt/sources.list.d/nordvpn.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends nordvpn && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /dist/main /main
-COPY --from=builder /build/.vpn /.vpn
-
-RUN ["/bin/bash", ".vpn/install.sh"]
-
 EXPOSE 8000
-EXPOSE 443/tcp
-EXPOSE 1194/udp
 
-CMD ["/bin/sh", "-c", "/etc/init.d/nordvpn start && sleep 5 && nordvpn login --token ${NORDVPN_ACCESS_TOKEN} && nordvpn connect ${NORDVPN_SERVER} && ./main"]
+CMD ["/bin/sh", "-c", "/etc/init.d/nordvpn start && sleep 5 && ./main"]
