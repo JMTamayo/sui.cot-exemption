@@ -64,8 +64,12 @@ type Config struct {
 	serviceVersion     string
 	serviceDescription string
 	servicePort        int
-	logLevel           string
-	allowedOrigins     []string
+
+	logLevel string
+
+	allowedOrigins []string
+
+	tviSuperserviciosVerificarExentosHost string
 }
 
 func (c *Config) GetServiceName() string {
@@ -92,6 +96,10 @@ func (c *Config) GetAllowedOrigins() []string {
 	return c.allowedOrigins
 }
 
+func (c *Config) GetTviSuperserviciosVerificarExentosHost() string {
+	return c.tviSuperserviciosVerificarExentosHost
+}
+
 func buildConfig() *Config {
 	serviceName := getFromEnv("SERVICE_NAME")
 
@@ -108,13 +116,16 @@ func buildConfig() *Config {
 
 	allowedOrigins := strings.Split(getFromEnv("ALLOWED_ORIGINS"), ",")
 
+	tviSuperserviciosVerificarExentosHost := getFromEnv("TVI_SUPERSERVICIOS_VERIFICAR_EXENTOS_HOST")
+
 	return &Config{
-		serviceName:        serviceName,
-		serviceVersion:     serviceVersion,
-		serviceDescription: serviceDescription,
-		servicePort:        servicePort,
-		logLevel:           logLevel,
-		allowedOrigins:     allowedOrigins,
+		serviceName:                           serviceName,
+		serviceVersion:                        serviceVersion,
+		serviceDescription:                    serviceDescription,
+		servicePort:                           servicePort,
+		logLevel:                              logLevel,
+		allowedOrigins:                        allowedOrigins,
+		tviSuperserviciosVerificarExentosHost: tviSuperserviciosVerificarExentosHost,
 	}
 }
 

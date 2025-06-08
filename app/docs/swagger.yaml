@@ -1,4 +1,65 @@
+definitions:
+  models.CotExemptionReport:
+    properties:
+      id_empresa:
+        type: string
+      niu:
+        type: string
+      nombre_prestador:
+        type: string
+      radicado:
+        type: string
+      sigla:
+        type: string
+    type: object
+  models.CotExemptionResponse:
+    properties:
+      sui_cot_exemption_response:
+        $ref: '#/definitions/models.TviSuperserviciosCotExemptionResponse'
+      verification_timestamp:
+        type: string
+    type: object
+  models.Error:
+    properties:
+      details:
+        type: string
+    type: object
+  models.TviSuperserviciosCotExemptionResponse:
+    properties:
+      listado_exentos:
+        items:
+          $ref: '#/definitions/models.CotExemptionReport'
+        type: array
+    type: object
 info:
   contact: {}
-paths: {}
+paths:
+  /sui/verify-cot-exemption:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: niu
+        in: query
+        name: niu
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CotExemptionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Verify COT exemption for a given niu
+      tags:
+      - SUI
 swagger: "2.0"
