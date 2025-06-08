@@ -28,9 +28,12 @@ RUN apt-get update && \
     apt-get install -y ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-RUN ["/bin/bash", ".vpn/install.sh"]
+
 
 COPY --from=builder /dist/main /main
+COPY --from=builder /.vpn /.vpn
+
+RUN ["/bin/bash", ".vpn/install.sh"]
 
 EXPOSE 8000
 
