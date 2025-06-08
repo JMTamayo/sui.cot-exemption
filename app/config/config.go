@@ -107,6 +107,9 @@ type Config struct {
 	allowedOrigins []string
 
 	tviSuperserviciosVerificarExentosHost string
+
+	vpnAccessToken string
+	vpnServer      string
 }
 
 // GetServiceName gets the name of the service.
@@ -186,6 +189,28 @@ func (c *Config) GetTviSuperserviciosVerificarExentosHost() string {
 	return c.tviSuperserviciosVerificarExentosHost
 }
 
+// GetVpnAccessToken gets the access token of the VPN.
+//
+// Arguments:
+//   - None.
+//
+// Returns:
+//   - The access token of the VPN.
+func (c *Config) GetVpnAccessToken() string {
+	return c.vpnAccessToken
+}
+
+// GetVpnServer gets the server of the VPN.
+//
+// Arguments:
+//   - None.
+//
+// Returns:
+//   - The server of the VPN.
+func (c *Config) GetVpnServer() string {
+	return c.vpnServer
+}
+
 // buildConfig builds the configuration for the application.
 //
 // Arguments:
@@ -211,6 +236,10 @@ func buildConfig() *Config {
 
 	tviSuperserviciosVerificarExentosHost := getFromEnv("TVI_SUPERSERVICIOS_VERIFICAR_EXENTOS_HOST")
 
+	vpnAccessToken := getFromEnv("VPN_ACCESS_TOKEN")
+
+	vpnServer := getFromEnv("VPN_SERVER")
+
 	return &Config{
 		serviceName:                           serviceName,
 		serviceVersion:                        serviceVersion,
@@ -219,6 +248,8 @@ func buildConfig() *Config {
 		logLevel:                              logLevel,
 		allowedOrigins:                        allowedOrigins,
 		tviSuperserviciosVerificarExentosHost: tviSuperserviciosVerificarExentosHost,
+		vpnAccessToken:                        vpnAccessToken,
+		vpnServer:                             vpnServer,
 	}
 }
 
