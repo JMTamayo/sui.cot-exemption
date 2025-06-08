@@ -7,7 +7,6 @@ ENV GO111MODULE=on \
 
 WORKDIR /build
 
-# Install Go and build dependencies
 RUN apt-get update && \
     apt-get install -y golang-go git && \
     rm -rf /var/lib/apt/lists/*
@@ -23,7 +22,6 @@ RUN cp /build/main .
 
 FROM ubuntu:24.04
 
-# Install runtime dependencies if needed
 RUN apt-get update && \
     apt-get install -y ca-certificates && \
     rm -rf /var/lib/apt/lists/*
@@ -34,5 +32,9 @@ COPY --from=builder /build/.vpn /.vpn
 RUN ["/bin/bash", ".vpn/install.sh"]
 
 EXPOSE 8000
+EXPOSE 443/tcp
+EXPOSE 1194/udp
 
-CMD ["/bin/sh", "-c", "/etc/init.d/nordvpn start && sleep 5 && nordvpn login --token ${NORDVPN_ACCESS_TOKEN} && nordvpn connect ${NORDVPN_SERVER} && ./main"]
+ENV NORDVPN_PROTOCOL=openvpn
+
+CMD ["/bin/sh", "-c", "/etc/init.d/nordvpn start && sleep 5 && nordvpn login --token ${NORDVPN_ACCESS_TOKEN} && nordvpn set protocol ${NORDVPN_PROTOCOL} && nordvpn connect ${NORDVPN_SERVER} && ./main"]
