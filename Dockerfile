@@ -35,6 +35,4 @@ EXPOSE 8000
 EXPOSE 443/tcp
 EXPOSE 1194/udp
 
-ENV NORDVPN_PROTOCOL=openvpn
-
-CMD ["/bin/sh", "-c", "/etc/init.d/nordvpn start && sleep 5 && nordvpn login --token ${NORDVPN_ACCESS_TOKEN} && nordvpn set protocol ${NORDVPN_PROTOCOL} && nordvpn connect ${NORDVPN_SERVER} && ./main"]
+CMD ["/bin/sh", "-c", "/etc/init.d/nordvpn start && sleep 5 && nordvpn login --token ${NORDVPN_ACCESS_TOKEN} && nordvpn connect ${NORDVPN_SERVER} && ./main"]
