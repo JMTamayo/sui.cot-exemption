@@ -10,6 +10,13 @@ import (
 	"github.com/go-kit/log/level"
 )
 
+// getFromEnv gets a value from the environment variables. It panics if the variable is not found.
+//
+// Arguments:
+//   - key: The key of the environment variable.
+//
+// Returns:
+//   - The value of the environment variable.
 func getFromEnv(key string) string {
 	value, ok := os.LookupEnv(key)
 	if !ok {
@@ -19,22 +26,51 @@ func getFromEnv(key string) string {
 	return value
 }
 
+// Logger represents the logger for the application.
 type Logger struct {
 	Logger log.Logger
 }
 
+// Info logs an info message.
+//
+// Arguments:
+//   - msg: The message to log.
+//
+// Returns:
+//   - None.
 func (l *Logger) Info(msg string) {
 	l.Logger.Log("msg", msg)
 }
 
+// Debug logs a debug message.
+//
+// Arguments:
+//   - msg: The message to log.
+//
+// Returns:
+//   - None.
 func (l *Logger) Debug(msg string) {
 	l.Logger.Log("msg", msg)
 }
 
+// Error logs an error message.
+//
+// Arguments:
+//   - msg: The message to log.
+//
+// Returns:
+//   - None.
 func (l *Logger) Error(msg string) {
 	l.Logger.Log("msg", msg)
 }
 
+// buildLogger builds the logger for the application.
+//
+// Arguments:
+//   - logLevel: The level of the logger.
+//
+// Returns:
+//   - The logger instance.
 func buildLogger(logLevel string) *Logger {
 	var logLevelOptions level.Option
 	switch strings.ToUpper(logLevel) {
@@ -59,6 +95,7 @@ func buildLogger(logLevel string) *Logger {
 	}
 }
 
+// Config represents the configuration for the application.
 type Config struct {
 	serviceName        string
 	serviceVersion     string
@@ -72,34 +109,90 @@ type Config struct {
 	tviSuperserviciosVerificarExentosHost string
 }
 
+// GetServiceName gets the name of the service.
+//
+// Arguments:
+//   - None.
+//
+// Returns:
+//   - The name of the service.
 func (c *Config) GetServiceName() string {
 	return c.serviceName
 }
 
+// GetServiceVersion gets the version of the service.
+//
+// Arguments:
+//   - None.
+//
+// Returns:
+//   - The version of the service.
 func (c *Config) GetServiceVersion() string {
 	return c.serviceVersion
 }
 
+// GetServiceDescription gets the description of the service.
+//
+// Arguments:
+//   - None.
+//
+// Returns:
+//   - The description of the service.
 func (c *Config) GetServiceDescription() string {
 	return c.serviceDescription
 }
 
+// GetServiceAddress gets the address of the service.
+//
+// Arguments:
+//   - None.
+//
+// Returns:
+//   - The address of the service.
 func (c *Config) GetServiceAddress() string {
 	return fmt.Sprintf(":%d", c.servicePort)
 }
 
+// GetLogLevel gets the log level of the application.
+//
+// Arguments:
+//   - None.
+//
+// Returns:
+//   - The log level of the application.
 func (c *Config) GetLogLevel() string {
 	return c.logLevel
 }
 
+// GetAllowedOrigins gets the allowed origins of the application.
+//
+// Arguments:
+//   - None.
+//
+// Returns:
+//   - The allowed origins of the application.
 func (c *Config) GetAllowedOrigins() []string {
 	return c.allowedOrigins
 }
 
+// GetTviSuperserviciosVerificarExentosHost gets the host of the TVI Superservicios service.
+//
+// Arguments:
+//   - None.
+//
+// Returns:
+//   - The host of the TVI Superservicios service.
 func (c *Config) GetTviSuperserviciosVerificarExentosHost() string {
 	return c.tviSuperserviciosVerificarExentosHost
 }
 
+// buildConfig builds the configuration for the application.
+//
+// Arguments:
+//   - None.
+//
+// Returns:
+//   - The configuration for the application.
 func buildConfig() *Config {
 	serviceName := getFromEnv("SERVICE_NAME")
 
@@ -129,6 +222,8 @@ func buildConfig() *Config {
 	}
 }
 
+// Conf represents the configuration for the application. It must be used to get the configuration values across the application.
 var Conf *Config = buildConfig()
 
+// Log represents the logger for the application. It must be used to log messages across the application.
 var Log *Logger = buildLogger(Conf.GetLogLevel())

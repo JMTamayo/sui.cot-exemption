@@ -14,7 +14,7 @@ definitions:
     type: object
   models.CotExemptionResponse:
     properties:
-      sui_cot_exemption_response:
+      report:
         $ref: '#/definitions/models.TviSuperserviciosCotExemptionResponse'
       verification_timestamp:
         type: string
@@ -23,6 +23,11 @@ definitions:
     properties:
       details:
         type: string
+    type: object
+  models.HTTPError:
+    properties:
+      error:
+        $ref: '#/definitions/models.Error'
     type: object
   models.TviSuperserviciosCotExemptionResponse:
     properties:
@@ -54,11 +59,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.Error'
+            $ref: '#/definitions/models.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.Error'
+            $ref: '#/definitions/models.HTTPError'
       summary: Verify COT exemption for a given niu
       tags:
       - SUI
