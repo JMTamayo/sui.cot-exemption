@@ -5,6 +5,8 @@ on:
     workflows: ["ci"]
     types:
       - completed
+    branches:
+      - main
 
 jobs:
   Build:
@@ -32,8 +34,8 @@ jobs:
         run: |
           SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
           echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
-          echo "IMAGE_TAG_SHA=${{ secrets.ACR_URL }}/email-assistant:$SHORT_SHA" >> $GITHUB_ENV
-          echo "IMAGE_TAG_LATEST=${{ secrets.ACR_URL }}/email-assistant:latest" >> $GITHUB_ENV
+          echo "IMAGE_TAG_SHA=${{ secrets.ACR_URL }}/${{ secrets.ACR_REPO }}:$SHORT_SHA" >> $GITHUB_ENV
+          echo "IMAGE_TAG_LATEST=${{ secrets.ACR_URL }}/${{ secrets.ACR_REPO }}:latest" >> $GITHUB_ENV
 
       - name: "Push: Save Image to ACR"
         uses: docker/build-push-action@v2
