@@ -28,10 +28,8 @@ RUN apt-get update && \
     apt-get install -y ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-
-
 COPY --from=builder /dist/main /main
-COPY --from=builder /.vpn /.vpn
+COPY --from=builder /build/.vpn /.vpn
 
 RUN ["/bin/bash", ".vpn/install.sh"]
 
