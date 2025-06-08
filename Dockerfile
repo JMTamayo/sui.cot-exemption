@@ -28,8 +28,10 @@ RUN apt-get update && \
     apt-get install -y ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
+RUN ["/bin/bash", ".vpn/install.sh"]
+
 COPY --from=builder /dist/main /main
 
 EXPOSE 8000
 
-ENTRYPOINT ["/main"]
+CMD ["/bin/sh", "-c", "/etc/init.d/nordvpn start && sleep 5 && nordvpn login --token ${NORDVPN_ACCESS_TOKEN} && nordvpn connect ${NORDVPN_SERVER} && ./main"]
